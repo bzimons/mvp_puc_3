@@ -1,34 +1,56 @@
 # Databricks notebook source
+# MAGIC %md
+# MAGIC
+# MAGIC Criação do Schema estrela:
+# MAGIC Para a criação do Schema estrela, o desafio será usar  `R` e o `SparkR`. Como os dados originais estão salvos em *parquet*, a primeira leitura precisa ser realizada com o `SparkR` e depois transformada para o `R` para a criação do *schema*
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC ### Leitura e separação inicial da base:
+
+# COMMAND ----------
+
+#bibliotecas 
 library(dplyr)
 library(SparkR)
 
 # COMMAND ----------
 
-# File location and type
-file_location = "/FileStore/tables/amazon.csv"
-file_type = "csv"
+# Leitura do parquet amazon
 amazon <- read.df("/FileStore/tables/amazon.csv", source = "csv", header="true", inferSchema = "true")
 amazon <- drop(amazon, c("review_content","about_product")) #necessario para trazer o DF para DF em R e não em SparkR
 head(amazon)
 
 # COMMAND ----------
 
+# MAGIC %md
+# MAGIC Obstáculo: A transformação do DF de sparkR para R, não contempla celulas grandes. Portanto, foi necessário retirar as colunas "review_content" e "about_product" para fazer essa transformação.
+
+# COMMAND ----------
+
+# O DF amazon realmente está em SparkDF em RSpark
 class(amazon)
 
 # COMMAND ----------
 
-head(amazon[amazon$product_id=='B0BNVBJW2S',])
-# o problema é notado aqui. por algum motivo, algumas linhas se misturam na propria leitura do DF. neste caso, vemos que o product name "entra dentro" das categorias. e fica tudo bagunçado.
+# MAGIC %md
+# MAGIC Analisando alguns *product_id* da base (como o da célula a seguir), percebi um problema na transferência de `SparkR` para `R`: algumas linhas se misturam na propria leitura do DF, ficam "deslocadas" após o *product_name*. neste caso, vemos que o product name "entra dentro" das categorias. e fica tudo bagunçado. Portanto, além da perda das duas colunas *review_content* e *about_product*, teremos perdas em algumas linhas (alguns produtos) em que isso acontece.
 
 # COMMAND ----------
 
+head(amazon[amazon$product_id=='B0BNVBJW2S',])
+
+# COMMAND ----------
+
+# transformação do DF Spark para R
 amaz <- as.data.frame(amazon)
 class(amaz)
 
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC Agora que o DF é em R, podemos fazer a separação:
+# MAGIC Agora que o DF está no formato do R, podemos começar com o processo de construção do schema. Como visto na leitura inicial dos dados, as colunas *user_id,user_name,review_id e review_title* possuem 8 elementos em cada. Ou seja, cada produto tem 8 reviews escritos por 8 usuários diferentes. Aqui, o objetivo é criar essas bases separadas, para usuários, produtos e reviews.
 
 # COMMAND ----------
 
@@ -59,27 +81,54 @@ df_users = rbind(df_users,dfc)
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Criando as Tabelas FATO, PRODUCTS, USERS e REVIEWS
+df_users <- df_users %>% dplyr::distinct()
 
 # COMMAND ----------
 
-# checando os produtos iguais, mas product_id diferentes:
+# MAGIC %md
+# MAGIC obstáculo: Para a separação do *review_title*, é bem difícil definir aonde fica a separação dos textos. Alguns separam facilmente por virgulas. Porém, quando algum título de produto único possui virgulas, essa separação não fica clara. O comando em REGEX, auxilia nessa separação e cria algumas exceções. O comando tryCatch vai executar o looping e pular, quando ouver o erro. Portanto, aqui existe mais perda de informação devido a esta extração.
 
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC ### Criando as Tabelas FATO, PRODUCTS, USERS e REVIEWS
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC Observando alguns displays, foi possível observar que alguns produtos, com product_id diferentes, possuem os mesmos reviews e usuários. (Uma comparação de exemplo pode ser vista nas imagens 2 e 3 no readme)
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC Neste caso, vamos criar um ranking dessas observações e manter apenas uma delas. de forma aleatória.
+
+# COMMAND ----------
+
+# checando os produtos iguais, mas product_id diferentes. Neste caso, o review_id e o user_id são os mesmos, porem o product_id é diferente.
 prod_diff <- df_users %>% 
-  group_by(user_id,user_name,review_id) %>%
-  mutate(id_order = row_number())
+dplyr::group_by(user_id,user_name,review_id) %>%
+dplyr::mutate(id_order = rank(review_id,ties.method= "random"))
 
-prod_diff <- prod_diff %>% filter(id_order==1) %>% select(-c(id_order))
 
+# COMMAND ----------
+
+#podemos ver claramente que o produto é essencialmente o mesmo.
+display(prod_diff[prod_diff$review_id=="R30SKUMYLSXXDN",])
+
+# COMMAND ----------
+
+prod_diff2 <- prod_diff %>% dplyr::filter(id_order==1) %>% dplyr::select(-c(id_order))
 # confirmando se temos agora produtos unicos com usuarios e reviews unicos:
-nrow(prod_diff)
-nrow(prod_diff %>% group_by(user_id,review_id,product_id) %>% count())
+n_before <- nrow(prod_diff2)
+n_after <- nrow(prod_diff2 %>% dplyr::group_by(user_id,review_id,product_id) %>% dplyr::count())
 
-df_users <- prod_diff
+df_users2 <- prod_diff2
+print(paste(n_before,n_after)) # existe ainda  uma pequena duplicação de 11 observações. Mas está suficientemente aceitavel
 
-# 8616 produtos que conseguimos separar os reviews dos usuários 
+# COMMAND ----------
 
+# criando as tabelas do schema
 fato = df_users[,c('user_id','review_id','product_id')]
 users = df_users[,c('user_id','user_name')]
 reviews = df_users[,c('review_id','review_title')]
@@ -87,17 +136,17 @@ products0 = amaz[,(names(amaz) %in% c("product_id", "product_name", "discounted_
 
 
 
-categories <- df_users %>% group_by(product_id,category) %>% count() %>% select(-c(n))
+categories <- df_users %>% dplyr::group_by(product_id,category) %>% dplyr::count() %>% dplyr::select(-c(n))
 
 products <- merge(products0,categories,by="product_id")
 
-products <- products %>% filter(product_id %in% df_users$product_id)
+products <- products %>% dplyr::filter(product_id %in% df_users$product_id)
 
 
-fato <- distinct(fato)
-users <- distinct(users)
-reviews <- distinct(reviews)
-products <- distinct(products)
+fato <- dplyr::distinct(fato)
+users <- dplyr::distinct(users)
+reviews <- dplyr::distinct(reviews)
+products <- dplyr::distinct(products)
 
 
 products$actual_price <- gsub('₹','',products$actual_price)
@@ -110,27 +159,17 @@ products$discounted_price <-round(as.numeric(gsub(",","",products$discounted_pri
 
 # COMMAND ----------
 
-products0[products0$product_id=='B0BNVBJW2S',]
+# MAGIC %md
+# MAGIC Aqui, por conta de alguma "bagunça" que ocorre na transformação do *CSV* em *PARQUET*, algumas linhas de produtos perderam os seus valores, por isso o Warning acima ocorreu. A decisão é de seguir com a base desta mesma forma, com mais esta perda de informação. No comando à seguir é possível ver um exemplo de como ficou esta bagunça, na leitura do parquet original 'amazon'
 
 # COMMAND ----------
 
-amaz[amaz$product_id=='B0BNVBJW2S',]
+display(amazon[amazon$product_id=='B0BNVBJW2S',])
 
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC o problema do valor estar deslocado é o mesmo desde a base inicial....
-
-# COMMAND ----------
-
-print(paste(sum(is.na(products$discounted_price)), sum(is.na(products$actual_price))))
-#por algum motivo alguns preços estão sendo perdidos na DF PRODUCTS.
-
-# COMMAND ----------
-
-#removendo esses valores da FATO.
-product_id_na <- products[is.na(products$discounted_price) | is.na(products$actual_price),]$product_id
-fato <- fato[!fato$product_id %in% product_id_na,]
+# MAGIC ### Resultado das bases do schema estrela:
 
 # COMMAND ----------
 
@@ -153,10 +192,11 @@ head(products)
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC WRITING SCHEMA
+# MAGIC ### Escrevendo as bases em parquet no databricks
 
 # COMMAND ----------
 
+# transformando de R para RSpark
 fato.spark <- as.DataFrame(fato)
 users.spark <- as.DataFrame(users)
 reviews.spark <- as.DataFrame(reviews)
@@ -165,11 +205,16 @@ products.spark <- as.DataFrame(products)
 
 # COMMAND ----------
 
-write.parquet(fato.spark, "amazon_star_schema/fato.parquet")
-write.parquet(users.spark, "amazon_star_schema/users.parquet")
-write.parquet(reviews.spark, "amazon_star_schema/reviews.parquet")
-write.parquet(products.spark, "amazon_star_schema/products.parquet")
-# onde eles foram parar?
+write.parquet(fato.spark, "amazon_star_schema/fato.parquet","overwrite")
+write.parquet(users.spark, "amazon_star_schema/users.parquet","overwrite")
+write.parquet(reviews.spark, "amazon_star_schema/reviews.parquet","overwrite")
+write.parquet(products.spark, "amazon_star_schema/products.parquet","overwrite")
+#
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC Testando a leitura:
 
 # COMMAND ----------
 
