@@ -6,7 +6,7 @@ ALuna : Beatriz Leal Simoes e Silva
 Construção de um MVP satisfatório para a disciplina, considerando o desafio abordar a engenharia de dados em suas etapas com grande foco e por fim passar pela etapa de análise de dados.
 
 ## Etapa 1 (bronze): 
-Escolha e carregamento dos dados. O conjunto de dados escolhido foi de produtos e reviews da amazon, encontrado na plataforma _kaggle_. A partir deste conjunto inicial, elaborar uma etapa simples de ETL e construir um esquema estrela, como parte do desafio em lidar com a engenharia de dados. Esta etapa de carregamento e extração do esquema estrela está detalhada no notebook XXX
+Escolha e carregamento dos dados. O conjunto de dados escolhido foi de produtos e reviews da [amazon, encontrado na plataforma _kaggle_](https://www.kaggle.com/datasets/karkavelrajaj/amazon-sales-dataset?resource=download). A partir deste conjunto inicial, elaborar uma etapa simples de ETL e construir um esquema estrela, como parte do desafio em lidar com a engenharia de dados. Esta etapa de carregamento e extração do esquema estrela está detalhada no notebook XXX
 
 
 ## Etapa 2 (silver): 
