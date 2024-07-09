@@ -17,6 +17,7 @@ Escolha e carregamento dos dados. O conjunto de dados escolhido foi de produtos 
 ## Etapa 2 (silver): 
 Etapa de limpeza e correção dos dados. Aqui o  foco é transformar cada categoria em seu tipo correto e realizar transformações e limpeza para que os dados possam ser analizados diretamente, sem passar pro processos de limpeza. O notebook desta etapa é XXX
 
+![star_schema](https://github.com/bzimons/mvp_puc_3/blob/databricks/imagens/star_schema.PNG)
 
 ## Etapa 3 (gold): 
 
