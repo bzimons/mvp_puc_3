@@ -11,16 +11,18 @@ Perguntas e Desafios a se responder:
 - Como ficou a criação do catalogo de dados e da representação do Schema final?
 
 
-## Etapa 1 (bronze): 
-Escolha e carregamento dos dados. O conjunto de dados escolhido foi de produtos e reviews da [amazon, encontrado na plataforma _kaggle_](https://www.kaggle.com/datasets/karkavelrajaj/amazon-sales-dataset?resource=download). A partir deste conjunto inicial, elaborar uma etapa simples de ETL e construir um esquema estrela, como parte do desafio em lidar com a engenharia de dados. Esta etapa de carregamento e extração do esquema estrela está detalhada no notebook [create_amazon](https://github.com/bzimons/mvp_puc_3/blob/databricks/notebooks/mvp3/create_amazon.py)
+## Etapa 1 : 
+Escolha e carregamento dos dados. O conjunto de dados escolhido foi de produtos e reviews da [amazon, encontrado na plataforma _kaggle_](https://www.kaggle.com/datasets/karkavelrajaj/amazon-sales-dataset?resource=download). O dataset é composto de produtos, suas respectivas páginas de compras e uma amostra de 8 reviews de usuários para cada produto.
+A partir deste conjunto inicial, é elaborado uma etapa simples de ETL, como parte do desafio em lidar com a engenharia de dados.
+O arquivo CSV foi carregado na parte de `catalog/databases` do  `DataBricksCommunityEdition`. A partir disso, o carregamento do arquivo para dentro do ambiente em formato *parquet* é feita no notebook [create_amazon](https://github.com/bzimons/mvp_puc_3/blob/main/notebooks/mvp3/create_amazon.py) E o catálago de dados pode ser visto em [catálogo](https://github.com/bzimons/mvp_puc_3/blob/main/catalogo_dados.md).
 
 
-## Etapa 2 (silver): 
+## Etapa 2 : 
 Etapa de limpeza e correção dos dados. Aqui o  foco é transformar cada categoria em seu tipo correto e realizar transformações e limpeza para que os dados possam ser analizados diretamente, sem passar pro processos de limpeza. O notebook desta etapa é XXX
 
 ![star_schema](https://github.com/bzimons/mvp_puc_3/blob/databricks/imagens/star_schema.PNG)
 
-## Etapa 3 (gold): 
+## Etapa 3 : 
 
 A partir das bases refinadas, as seguintes perguntas de análise são definidas:
 Qual a
