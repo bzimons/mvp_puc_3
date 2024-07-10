@@ -4,6 +4,7 @@ Aluna : Beatriz Leal Simoes e Silva
 ## Objetivo:
 Construção de um MVP satisfatório para a disciplina, considerando o desafio abordar a engenharia de dados em suas etapas com grande foco e por fim passar pela etapa de análise de dados.
 Perguntas e Desafios a se responder:
+- Utilizar o `SparkR` e  `R` no `Databricks` para realizar o ETL.
 - É possível construir um schema estrela com a base escolhida?
 - Os dados no processo de ETL, foram aproveitados com totalidade?
 - No processo de limpeza, houve perda de informação?
