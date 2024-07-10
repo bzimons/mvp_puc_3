@@ -5,10 +5,11 @@ Aluna : Beatriz Leal Simoes e Silva
 Construção de um MVP satisfatório para a disciplina, considerando o desafio abordar a engenharia de dados em suas etapas com grande foco e por fim passar pela etapa de análise de dados.
 Perguntas e Desafios a se responder:
 - Utilizar o `SparkR` e  `R` no `Databricks` para realizar o ETL.
-- É possível construir um schema estrela com a base escolhida?
-- Os dados no processo de ETL, foram aproveitados com totalidade?
-- No processo de limpeza, houve perda de informação?
-- Como ficou a criação do catalogo de dados e da representação do Schema final?
+- Construir um schema estrela com a base escolhida.
+- Aproveitar os dados em array conjuntos em sua totalidade.
+- Perguntas da análise:
+  - No processo de limpeza, houve perda de informação?
+  - Como ficou a criação do catalogo de dados e da representação do Schema final?
 
 
 ## Etapa 1 : 
@@ -18,7 +19,9 @@ O arquivo CSV foi carregado na parte de `catalog/databases` do  `DataBricksCommu
 
 
 ## Etapa 2 : 
-Etapa de limpeza e correção dos dados. Aqui o  foco é transformar cada categoria em seu tipo correto e realizar transformações e limpeza para que os dados possam ser analizados diretamente, sem passar pro processos de limpeza. O notebook desta etapa é XXX
+Etapa de limpeza, transformação de dados e criação do SCHEMA para que os dados possam ser analizados. [create_schema](https://github.com/bzimons/mvp_puc_3/blob/main/notebooks/mvp3/create_schema.py). Nesta etapa, é notável que alguns produtos com *product_id* diferentes são essencialmente os mesmos produtos. O print de um exemplo desses produtos pode ser visto aqui na comparação [imagem 1](https://github.com/bzimons/mvp_puc_3/blob/main/imagens/amazon1.png), [imagem 2](https://github.com/bzimons/mvp_puc_3/blob/main/imagens/amazon2.png) e [imagem 3](https://github.com/bzimons/mvp_puc_3/blob/main/imagens/amazon3.png).
+
+### Resultado final do schema:
 
 ![star_schema](https://github.com/bzimons/mvp_puc_3/blob/databricks/imagens/star_schema.PNG)
 
@@ -31,3 +34,4 @@ Detalhamento
 Busca pelos dados
 O conjunto de dados hearts foi, inicialmente, obtido no kaggle, uma fonte reconhecida por disponibilizar conjuntos de dados de alta qualidade para projetos de machine learning, data science e data engineering. Isso garante a confiabilidade e a integridade dos dados utilizados nesta sprint.
 
+## Auto avaliação : 
