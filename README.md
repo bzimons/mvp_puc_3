@@ -15,11 +15,14 @@ Perguntas e Desafios a se responder:
 ## Etapa 1 : 
 Escolha e carregamento dos dados. O conjunto de dados escolhido foi de produtos e reviews da [amazon, encontrado na plataforma _kaggle_](https://www.kaggle.com/datasets/karkavelrajaj/amazon-sales-dataset?resource=download). O dataset é composto de produtos, suas respectivas páginas de compras e uma amostra de 8 reviews de usuários para cada produto.
 A partir deste conjunto inicial, é elaborado uma etapa simples de ETL, como parte do desafio em lidar com a engenharia de dados.
-O arquivo CSV foi carregado na parte de `catalog/databases` do  `DataBricksCommunityEdition`. A partir disso, o carregamento do arquivo para dentro do ambiente em formato *parquet* é feita no notebook [create_amazon](https://github.com/bzimons/mvp_puc_3/blob/main/notebooks/mvp3/create_amazon.py) E o catálago de dados pode ser visto em [catálogo](https://github.com/bzimons/mvp_puc_3/blob/main/catalogo_dados.md).
+O arquivo CSV foi carregado na parte de DBFS do  `DataBricksCommunityEdition`. A partir disso, o carregamento do arquivo para dentro do ambiente em formato *parquet* é feita no notebook [create_amazon](https://github.com/bzimons/mvp_puc_3/blob/main/notebooks/mvp3/create_amazon.py) E o catálago de dados pode ser visto em [catálogo](https://github.com/bzimons/mvp_puc_3/blob/main/catalogo_dados.md).
 
+TIRAR PRINT DA ETAPA DO CSV JOGADO NO DATABRICKS
 
 ## Etapa 2 : 
-Etapa de limpeza, transformação de dados e criação do SCHEMA para que os dados possam ser analizados. [create_schema](https://github.com/bzimons/mvp_puc_3/blob/main/notebooks/mvp3/create_schema.py). Nesta etapa, é notável que alguns produtos com *product_id* diferentes são essencialmente os mesmos produtos. O print de um exemplo desses produtos pode ser visto aqui na comparação [imagem 1](https://github.com/bzimons/mvp_puc_3/blob/main/imagens/amazon1.png), [imagem 2](https://github.com/bzimons/mvp_puc_3/blob/main/imagens/amazon2.png) e [imagem 3](https://github.com/bzimons/mvp_puc_3/blob/main/imagens/amazon3.png).
+Etapa de limpeza, transformação de dados e criação do SCHEMA para que os dados possam ser analizados. O notebook desta etapa é o [create_schema](https://github.com/bzimons/mvp_puc_3/blob/main/notebooks/mvp3/create_schema.r). 
+
+Observação: Nesta etapa, é notável que alguns produtos com *product_id* diferentes são essencialmente os mesmos produtos. O print de um exemplo desses produtos pode ser visto aqui na comparação [imagem 1](https://github.com/bzimons/mvp_puc_3/blob/main/imagens/amazon1.png), [imagem 2](https://github.com/bzimons/mvp_puc_3/blob/main/imagens/amazon2.png) e [imagem 3](https://github.com/bzimons/mvp_puc_3/blob/main/imagens/amazon3.png).
 
 ### Resultado final do schema:
 
@@ -27,11 +30,6 @@ Etapa de limpeza, transformação de dados e criação do SCHEMA para que os dad
 
 ## Etapa 3 : 
 
-A partir das bases refinadas, as seguintes perguntas de análise são definidas:
-Qual a
-
-Detalhamento
-Busca pelos dados
-O conjunto de dados hearts foi, inicialmente, obtido no kaggle, uma fonte reconhecida por disponibilizar conjuntos de dados de alta qualidade para projetos de machine learning, data science e data engineering. Isso garante a confiabilidade e a integridade dos dados utilizados nesta sprint.
+A partir do schema, as perguntas dos objetivos podem ser respondidas. O notebook de análises é [data_analysis](https://github.com/bzimons/mvp_puc_3/blob/main/notebooks/mvp3/data_analysis.r)
 
 ## Auto avaliação : 
