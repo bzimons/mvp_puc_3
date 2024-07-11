@@ -20,12 +20,12 @@ Escolha e carregamento dos dados. O conjunto de dados escolhido foi de produtos 
 A partir deste conjunto inicial, é elaborado uma etapa simples de ETL, como parte do desafio em lidar com a engenharia de dados.
 O arquivo CSV foi carregado na parte de Create New Table do  `DataBricksCommunityEdition`, a imagem da página em que ele é carregado pode ser vista [aqui](https://github.com/bzimons/mvp_puc_3/blob/databricks/imagens/carga_databricks.PNG).
 
-A partir disso, o carregamento do arquivo para dentro do ambiente em formato *parquet* é feita no notebook [create_amazon](https://github.com/bzimons/mvp_puc_3/blob/main/notebooks/html/create_amazon.html) (Este é o link da forma legível em HTML, pois o arquivo .py não é intuitivo no github. O arquivo original integrado com o databricks pode ser conferido [aqui](https://github.com/bzimons/mvp_puc_3/blob/main/notebooks/mvp3/create_amazon.py). E o catálago de dados pode ser visto em [catálogo](https://github.com/bzimons/mvp_puc_3/blob/main/catalogo_dados.md).
+A partir disso, o carregamento do arquivo para dentro do ambiente em formato *parquet* é feita no notebook [create_amazon](https://github.com/bzimons/mvp_puc_3/blob/main/notebooks/pdf/create_amazon%20-%20Databricks.pdf) (Este é o link da forma legível em PDF, pois o arquivo .py não é intuitivo no github. O arquivo original integrado com o databricks pode ser conferido [aqui](https://github.com/bzimons/mvp_puc_3/blob/main/notebooks/mvp3/create_amazon.py). E o catálago de dados pode ser visto em [catálogo](https://github.com/bzimons/mvp_puc_3/blob/main/catalogo_dados.md).
 
 
 
 ## Etapa 2 : 
-Etapa de limpeza, transformação de dados e criação do SCHEMA para que os dados possam ser analizados. O notebook desta etapa é o [create_schema](https://github.com/bzimons/mvp_puc_3/blob/main/notebooks/mvp3/create_schema.r). 
+Etapa de limpeza, transformação de dados e criação do SCHEMA para que os dados possam ser analizados. O notebook desta etapa é o [create_schema (PDF visualization)](https://github.com/bzimons/mvp_puc_3/blob/main/notebooks/pdf/create_amazon%20-%20Databricks.pdf). ([versão original .r](https://github.com/bzimons/mvp_puc_3/blob/main/notebooks/mvp3/create_schema.r)).
 
 Observação: Nesta etapa, é notável que alguns produtos com *product_id* diferentes são essencialmente os mesmos produtos. O print de um exemplo desses produtos pode ser visto aqui na comparação [imagem 1](https://github.com/bzimons/mvp_puc_3/blob/main/imagens/amazon1.png), [imagem 2](https://github.com/bzimons/mvp_puc_3/blob/main/imagens/amazon2.png) e [imagem 3](https://github.com/bzimons/mvp_puc_3/blob/main/imagens/amazon3.png).
 
@@ -35,7 +35,8 @@ Observação: Nesta etapa, é notável que alguns produtos com *product_id* dife
 
 ## Etapa 3 : 
 
-A partir do schema, as perguntas dos objetivos podem ser respondidas. O notebook de análises é [data_analysis](https://github.com/bzimons/mvp_puc_3/blob/main/notebooks/mvp3/data_analysis.r)
+A partir do schema, as perguntas dos objetivos podem ser respondidas. O notebook de análises é o[data_analysis (PDF visualization)](https://github.com/bzimons/mvp_puc_3/blob/main/notebooks/pdf/data_analysis%20-%20Databricks.pdf). ([versão original .r](https://github.com/bzimons/mvp_puc_3/blob/main/notebooks/mvp3/data_analysis.r)). As perguntas definidas no objetivo estão numeradas de 1 a 5.
+
 
 ## Auto avaliação : 
 
