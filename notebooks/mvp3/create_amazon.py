@@ -1,6 +1,6 @@
 # Databricks notebook source
 # MAGIC %md
-# MAGIC ## Criação da base de dados em formato parquet
+# MAGIC # Etapa 1 - Criação da base de dados em formato parquet
 # MAGIC Essa etapa de carregamento é oferecida pelo próprio databricks community edition. Aqui mantenho o comentário original. O Databricks utiliza do *Pyspark* para a leitura e gravação dos dados:
 
 # COMMAND ----------
@@ -31,7 +31,7 @@ display(df)
 
 # COMMAND ----------
 
-permanent_table_name = "amazon_csv"
+permanent_table_name = "amazon__csv"
 df.write.format("parquet").saveAsTable(permanent_table_name)
 
 # COMMAND ----------

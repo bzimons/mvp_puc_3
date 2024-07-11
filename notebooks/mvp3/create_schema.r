@@ -1,7 +1,6 @@
 # Databricks notebook source
 # MAGIC %md
-# MAGIC
-# MAGIC Criação do Schema estrela:
+# MAGIC # Etapa 2 - Criação do Schema estrela:
 # MAGIC Para a criação do Schema estrela, o desafio será usar  `R` e o `SparkR`. Como os dados originais estão salvos em *parquet*, a primeira leitura precisa ser realizada com o `SparkR` e depois transformada para o `R` para a criação do *schema*
 
 # COMMAND ----------
@@ -114,7 +113,7 @@ dplyr::mutate(id_order = rank(review_id,ties.method= "random"))
 # COMMAND ----------
 
 #podemos ver claramente que o produto é essencialmente o mesmo.
-display(prod_diff[prod_diff$review_id=="R30SKUMYLSXXDN",])
+display(prod_diff[prod_diff$review_id=="RGIQEG07R9HS2",])
 
 # COMMAND ----------
 
@@ -129,18 +128,18 @@ print(paste(n_before,n_after)) # existe ainda  uma pequena duplicação de 11 ob
 # COMMAND ----------
 
 # criando as tabelas do schema
-fato = df_users[,c('user_id','review_id','product_id')]
-users = df_users[,c('user_id','user_name')]
-reviews = df_users[,c('review_id','review_title')]
-products0 = amaz[,(names(amaz) %in% c("product_id", "product_name", "discounted_price", "actual_price","discount_percentage", "rating"))]
+fato = df_users2[,c('user_id','review_id','product_id')]
+users = df_users2[,c('user_id','user_name')]
+reviews = df_users2[,c('review_id','review_title')]
+products0 = amaz[,(names(amaz) %in% c("product_id", "product_name", "discounted_price", "actual_price","discount_percentage", "rating","rating_count"))]
 
 
 
-categories <- df_users %>% dplyr::group_by(product_id,category) %>% dplyr::count() %>% dplyr::select(-c(n))
+categories <- df_users2 %>% dplyr::group_by(product_id,category) %>% dplyr::count() %>% dplyr::select(-c(n))
 
 products <- merge(products0,categories,by="product_id")
 
-products <- products %>% dplyr::filter(product_id %in% df_users$product_id)
+products <- products %>% dplyr::filter(product_id %in% df_users2$product_id)
 
 
 fato <- dplyr::distinct(fato)
@@ -151,8 +150,9 @@ products <- dplyr::distinct(products)
 
 products$actual_price <- gsub('₹','',products$actual_price)
 products$discounted_price <- gsub('₹','',products$discounted_price)
+products$rating_count <- as.numeric(gsub(',','',products$rating_count))
 
-#Rupias Indianas Para Reais: (valor em 01/07/2024)
+#Rupias Indianas Para Reais: (valor em 01/07/2024), imagem no github
 products$actual_price <-round(as.numeric(gsub(",","",products$actual_price))*0.067,2)
 products$discounted_price <-round(as.numeric(gsub(",","",products$discounted_price))*0.067,2)
 
