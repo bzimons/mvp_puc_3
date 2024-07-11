@@ -8,8 +8,11 @@ Perguntas e Desafios a se responder:
 - Construir um schema estrela com a base escolhida.
 - Aproveitar os dados em array conjuntos em sua totalidade.
 - Perguntas da análise:
-  - No processo de limpeza, houve perda de informação?
-  - Como ficou a criação do catalogo de dados e da representação do Schema final?
+   - Existem usuários que compraram mais de um produto?
+   - As categorias dos usuários que compraram o mesmo produto são as mesmas?
+   - Qual a categoria de produtos mais presente?
+   - Qual a média, mediana, mínima e máxima do preço dos produtos das principais categorias?
+   - Qual a porcentagem de produtos com nota de avaliação suficientemente confiável?
 
 
 ## Etapa 1 : 
@@ -17,10 +20,9 @@ Escolha e carregamento dos dados. O conjunto de dados escolhido foi de produtos 
 A partir deste conjunto inicial, é elaborado uma etapa simples de ETL, como parte do desafio em lidar com a engenharia de dados.
 O arquivo CSV foi carregado na parte de Create New Table do  `DataBricksCommunityEdition`, a imagem da página em que ele é carregado pode ser vista [aqui](https://github.com/bzimons/mvp_puc_3/blob/databricks/imagens/carga_databricks.PNG).
 
-A partir disso, o carregamento do arquivo para dentro do ambiente em formato *parquet* é feita no notebook [create_amazon]
-(https://github.com/bzimons/mvp_puc_3/blob/main/notebooks/mvp3/create_amazon.py) E o catálago de dados pode ser visto em [catálogo](https://github.com/bzimons/mvp_puc_3/blob/main/catalogo_dados.md).
+A partir disso, o carregamento do arquivo para dentro do ambiente em formato *parquet* é feita no notebook [create_amazon](https://github.com/bzimons/mvp_puc_3/blob/main/notebooks/html/create_amazon.html) (Este é o link da forma legível em HTML, pois o arquivo .py não é intuitivo no github. O arquivo original integrado com o databricks pode ser conferido [aqui](https://github.com/bzimons/mvp_puc_3/blob/main/notebooks/mvp3/create_amazon.py). E o catálago de dados pode ser visto em [catálogo](https://github.com/bzimons/mvp_puc_3/blob/main/catalogo_dados.md).
 
-TIRAR PRINT DA ETAPA DO CSV JOGADO NO DATABRICKS
+
 
 ## Etapa 2 : 
 Etapa de limpeza, transformação de dados e criação do SCHEMA para que os dados possam ser analizados. O notebook desta etapa é o [create_schema](https://github.com/bzimons/mvp_puc_3/blob/main/notebooks/mvp3/create_schema.r). 
@@ -29,7 +31,7 @@ Observação: Nesta etapa, é notável que alguns produtos com *product_id* dife
 
 ### Resultado final do schema:
 
-![star_schema](https://github.com/bzimons/mvp_puc_3/blob/databricks/imagens/star_schema.PNG)
+![star_schema](https://github.com/bzimons/mvp_puc_3/blob/databricks/imagens/star_schema2.PNG)
 
 ## Etapa 3 : 
 
@@ -37,7 +39,8 @@ A partir do schema, as perguntas dos objetivos podem ser respondidas. O notebook
 
 ## Auto avaliação : 
 
-O desafio de criar um SCHEMA e trabalhar com o Databricks foi efetivo. Porém na construção do SCHEMA, muitas informações  foram perdidas devido ao carregamento no databricks e na transformação para o data.frame no R. Dito isto, o processo do SCHEMA poderia ter sido feito no PySpark, exigindo aqui um pouco mais de dedicação em aprender a linguagem.
+O desafio de trabalhar com o Databricks foi efetivo. A plataforma oferece muitas possibilidades para Engenharia e Análise de dados, mesmo com as limitações do poder do Cluster e da necessidade de criar um novo cluster com frequência, o trabalho pode ser feito com sucesso.
+Na construção do SCHEMA, muitas informações foram perdidas no processo de carregamento do csv no databricks e na transformação para o data.frame no R, de forma que alguns valores numéricos foram substituídos por Nulos. Dito isto, o processo do SCHEMA poderia ter sido feito no PySpark, exigindo aqui um pouco mais de dedicação em aprender a linguagem.
 
 As perguntas na parte final de análise, foram devidamente respondidas dentro do SCHEMA criado. Se algumas variáveis da base original tivessem sido retidas, como a descrição das reviews por completo, talvez fosse possível
 
