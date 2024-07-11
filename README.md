@@ -15,7 +15,10 @@ Perguntas e Desafios a se responder:
 ## Etapa 1 : 
 Escolha e carregamento dos dados. O conjunto de dados escolhido foi de produtos e reviews da [amazon, encontrado na plataforma _kaggle_](https://www.kaggle.com/datasets/karkavelrajaj/amazon-sales-dataset?resource=download). O dataset é composto de produtos, suas respectivas páginas de compras e uma amostra de 8 reviews de usuários para cada produto.
 A partir deste conjunto inicial, é elaborado uma etapa simples de ETL, como parte do desafio em lidar com a engenharia de dados.
-O arquivo CSV foi carregado na parte de DBFS do  `DataBricksCommunityEdition`. A partir disso, o carregamento do arquivo para dentro do ambiente em formato *parquet* é feita no notebook [create_amazon](https://github.com/bzimons/mvp_puc_3/blob/main/notebooks/mvp3/create_amazon.py) E o catálago de dados pode ser visto em [catálogo](https://github.com/bzimons/mvp_puc_3/blob/main/catalogo_dados.md).
+O arquivo CSV foi carregado na parte de Create New Table do  `DataBricksCommunityEdition`, a imagem da página em que ele é carregado pode ser vista [aqui](https://github.com/bzimons/mvp_puc_3/blob/databricks/imagens/carga_databricks.PNG).
+
+A partir disso, o carregamento do arquivo para dentro do ambiente em formato *parquet* é feita no notebook [create_amazon]
+(https://github.com/bzimons/mvp_puc_3/blob/main/notebooks/mvp3/create_amazon.py) E o catálago de dados pode ser visto em [catálogo](https://github.com/bzimons/mvp_puc_3/blob/main/catalogo_dados.md).
 
 TIRAR PRINT DA ETAPA DO CSV JOGADO NO DATABRICKS
 
@@ -33,3 +36,9 @@ Observação: Nesta etapa, é notável que alguns produtos com *product_id* dife
 A partir do schema, as perguntas dos objetivos podem ser respondidas. O notebook de análises é [data_analysis](https://github.com/bzimons/mvp_puc_3/blob/main/notebooks/mvp3/data_analysis.r)
 
 ## Auto avaliação : 
+
+O desafio de criar um SCHEMA e trabalhar com o Databricks foi efetivo. Porém na construção do SCHEMA, muitas informações  foram perdidas devido ao carregamento no databricks e na transformação para o data.frame no R. Dito isto, o processo do SCHEMA poderia ter sido feito no PySpark, exigindo aqui um pouco mais de dedicação em aprender a linguagem.
+
+As perguntas na parte final de análise, foram devidamente respondidas dentro do SCHEMA criado. Se algumas variáveis da base original tivessem sido retidas, como a descrição das reviews por completo, talvez fosse possível
+
+
