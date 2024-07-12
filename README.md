@@ -25,7 +25,7 @@ A partir disso, o carregamento do arquivo para dentro do ambiente em formato *pa
 
 
 ## Etapa 2 : 
-Etapa de limpeza, transformação de dados e criação do SCHEMA para que os dados possam ser analizados. O notebook desta etapa é o [create_schema (PDF visualization)](https://github.com/bzimons/mvp_puc_3/blob/main/notebooks/pdf/create_schema%20-%20Databricks.pdf). ([versão original .r](https://github.com/bzimons/mvp_puc_3/blob/main/notebooks/mvp3/create_schema.r)).
+Etapa de limpeza, transformação de dados e criação do SCHEMA para que os dados possam ser analizados. O notebook desta etapa é o [create_schema (PDF)](https://github.com/bzimons/mvp_puc_3/blob/main/notebooks/pdf/create_schema%20-%20Databricks.pdf) - ([versão original (r)](https://github.com/bzimons/mvp_puc_3/blob/main/notebooks/mvp3/create_schema.r)).
 
 Observação: Nesta etapa, é notável que alguns produtos com *product_id* diferentes são essencialmente os mesmos produtos. O print de um exemplo desses produtos pode ser visto aqui na comparação [imagem 1](https://github.com/bzimons/mvp_puc_3/blob/main/imagens/amazon1.png), [imagem 2](https://github.com/bzimons/mvp_puc_3/blob/main/imagens/amazon2.png) e [imagem 3](https://github.com/bzimons/mvp_puc_3/blob/main/imagens/amazon3.png).
 
@@ -35,7 +35,12 @@ Observação: Nesta etapa, é notável que alguns produtos com *product_id* dife
 
 ## Etapa 3 : 
 
-A partir do schema, as perguntas dos objetivos podem ser respondidas. O notebook de análises é o[data_analysis (PDF visualization)](https://github.com/bzimons/mvp_puc_3/blob/main/notebooks/pdf/data_analysis%20-%20Databricks.pdf). ([versão original .r](https://github.com/bzimons/mvp_puc_3/blob/main/notebooks/mvp3/data_analysis.r)). As perguntas definidas no objetivo estão numeradas de 1 a 5.
+A partir do schema, as perguntas dos objetivos podem ser respondidas. O notebook de análises é o [data_analysis (PDF)](https://github.com/bzimons/mvp_puc_3/blob/main/notebooks/pdf/data_analysis%20-%20Databricks.pdf) - ([versão original(r)](https://github.com/bzimons/mvp_puc_3/blob/main/notebooks/mvp3/data_analysis.r)). As perguntas definidas no objetivo estão numeradas de 1 a 5.
+
+
+## Pipeline:
+
+A execução desses 3 notebooks em sequência é realizada com sucesso  também pela [pipeline (ipynb)](https://github.com/bzimons/mvp_puc_3/blob/main/notebooks/pdf/pipeline.ipynb) - ([arquivo original (py)](https://github.com/bzimons/mvp_puc_3/blob/main/notebooks/mvp3/pipeline.py)). É  importante ressaltar que os comentários e visualizações são melhor feitas pelos notebooks individuais.
 
 
 ## Auto avaliação : 
